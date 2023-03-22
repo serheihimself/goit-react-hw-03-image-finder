@@ -4,7 +4,7 @@ import Modal from '../Modal/Modal';
 import Loader from '../Loader/Loader';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import Button from '../Button/Button';
-import { searchImage } from 'components/services/servicesApi';
+import { searchImage } from '../../services/servicesApi';
 import { Container } from './App.styles';
 
 class App extends Component {
@@ -26,8 +26,9 @@ class App extends Component {
         const { images, totalImages } = await searchImage(search, page);
         if (images.length === 0) {
           this.setState({
-            images: 'Were sorry, images is not found!',
+            error: 'Were sorry, images is not found!',
           });
+          return;
         }
         this.setState(prevState => ({
           images: [...prevState.images, ...images],
@@ -59,7 +60,7 @@ class App extends Component {
   };
 
   render() {
-    const { images, pending, modal, totalImages } = this.state;
+    const { images, pending, modal, totalImages, error } = this.state;
     return (
       <Container>
         <Searchbar onSubmit={this.searchNewImage} />
@@ -69,6 +70,7 @@ class App extends Component {
         )}
         {pending && <Loader />}
         {modal && <Modal image={modal} closeModal={this.closeModal} />}
+        {error && <p>{error}</p>}
       </Container>
     );
   }

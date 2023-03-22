@@ -15,6 +15,6 @@ export const searchImage = async (search, page) => {
       largeImageURL: el.largeImageURL,
     };
   });
-  const totalImages = body.totalImages;
+  const totalImages = body.totalHits;
   return { images, totalImages };
 };
